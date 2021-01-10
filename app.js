@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+const mongoConnect = require("./util/database").mongoConnect;
 const apiRoutes = require("./routes/api");
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,4 +15,6 @@ app.use("/api", apiRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+mongoConnect(() => {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
