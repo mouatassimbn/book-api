@@ -4,7 +4,7 @@ const Book = require("../models/book");
 exports.index = (req, res, nxt) => {
   Book.fetchAll()
     .then((books) => {
-      res.json(books);
+      res.status(200).json(books);
     })
     .catch((err) => console.log(err));
 };
@@ -14,13 +14,35 @@ exports.show = (req, res, nxt) => {
 
   const book = Book.findById(bookId)
     .then((book) => {
-      res.json(book);
+      res.status(200).json(book);
     })
     .catch((err) => console.log(err));
 };
 
-exports.store = (req, res, nxt) => {};
+exports.store = (req, res, nxt) => {
+  const isbn = req.body.isbn;
+  const title = req.body.title;
+  const description = req.body.description;
+  const author = req.bodt.author;
+
+  const book = new Book(isbn, title, author, description, null);
+
+  book
+    .save()
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => console.log(err));
+};
 
 exports.update = (req, res, nxt) => {};
 
-exports.destroy = (req, res, nxt) => {};
+exports.destroy = (req, res, nxt) => {
+  const bookId = req.body.id;
+
+  Book.deleteById(bookId)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => console.log(err));
+};
