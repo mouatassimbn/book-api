@@ -12,8 +12,24 @@ class Book {
 
   save() {
     const db = getDb();
+    let dbOp;
+    if (this._id) {
+      dbOp = db.collection("books").updateOne(
+        { _id: new mongodb.ObjectId(this._id) },
+        {
+          $set: {
+            isbn: this.isbn,
+            title: this.title,
+            description: this.description,
+            author: this.author,
+          },
+        }
+      );
+    } else {
+      dbOp = db.collection("books").insertOne(this);
+    }
 
-    return db.collection("books").insertOne(this);
+    return dbOp;
   }
 
   static fetchAll() {
