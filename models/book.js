@@ -29,7 +29,9 @@ class Book {
       dbOp = db.collection("books").insertOne(this);
     }
 
-    return dbOp;
+    return dbOp.then((result) => {
+      return result.ops[0];
+    });
   }
 
   static fetchAll() {
@@ -53,6 +55,17 @@ class Book {
   }
 
   static find() {}
+
+  static deleteById(bookId) {
+    const db = getdb();
+
+    return db
+      .collection("books")
+      .deleteOn({ _id: new mongodb.ObjectId(bookId) })
+      .then((result) => {
+        return result.ops[0];
+      });
+  }
 }
 
 module.exports = Book;
