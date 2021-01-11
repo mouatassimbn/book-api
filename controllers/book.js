@@ -35,7 +35,21 @@ exports.store = (req, res, nxt) => {
     .catch((err) => console.log(err));
 };
 
-exports.update = (req, res, nxt) => {};
+exports.update = (req, res, nxt) => {
+  const bookId = req.params.id;
+  const updatedIisbn = req.body.isbn;
+  const updatedTitle = req.body.title;
+  const updatedDescription = req.body.description;
+  const updatedAuthor = req.bodt.author;
+
+  const book = new Book(updatedIsbn,updatedTitle, updatedAuthor, updatedDescription, bookId);
+
+  book.save()
+  .then(result => {
+      res.status(200).json();
+  })
+  .catch(err => console.log(err));
+};
 
 exports.destroy = (req, res, nxt) => {
   const bookId = req.body.id;
