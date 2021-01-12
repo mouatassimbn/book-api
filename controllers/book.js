@@ -1,5 +1,4 @@
 const Book = require("../models/book");
-const Book = require("../models/book");
 
 exports.index = (req, res, nxt) => {
   Book.fetchAll()
@@ -23,7 +22,7 @@ exports.store = (req, res, nxt) => {
   const isbn = req.body.isbn;
   const title = req.body.title;
   const description = req.body.description;
-  const author = req.bodt.author;
+  const author = req.body.author;
 
   const book = new Book(isbn, title, author, description, null);
 
@@ -37,16 +36,16 @@ exports.store = (req, res, nxt) => {
 
 exports.update = (req, res, nxt) => {
   const bookId = req.params.id;
-  const updatedIisbn = req.body.isbn;
+  const updatedIsbn = req.body.isbn;
   const updatedTitle = req.body.title;
   const updatedDescription = req.body.description;
-  const updatedAuthor = req.bodt.author;
+  const updatedAuthor = req.body.author;
 
   const book = new Book(updatedIsbn,updatedTitle, updatedAuthor, updatedDescription, bookId);
 
   book.save()
   .then(result => {
-      res.status(200).json();
+      res.status(200).json(result);
   })
   .catch(err => console.log(err));
 };

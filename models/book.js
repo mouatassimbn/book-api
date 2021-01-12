@@ -30,7 +30,7 @@ class Book {
     }
 
     return dbOp.then((result) => {
-      return result.ops[0];
+      return result.ops ? result.ops[0] : { status: "Updated successfuly..." };
     });
   }
 
@@ -57,13 +57,13 @@ class Book {
   static find() {}
 
   static deleteById(bookId) {
-    const db = getdb();
+    const db = getDb();
 
     return db
       .collection("books")
-      .deleteOn({ _id: new mongodb.ObjectId(bookId) })
+      .deleteOne({ _id: new mongodb.ObjectId(bookId) })
       .then((result) => {
-        return result.ops[0];
+        return result.ops ? result.ops[0] : { status: "Deleted successfuly..." };
       });
   }
 }
