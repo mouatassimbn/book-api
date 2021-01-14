@@ -36,28 +36,32 @@ exports.store = (req, res, nxt) => {
 
 exports.update = (req, res, nxt) => {
   const bookId = req.params.id;
-  const updatedIsbn = req.body.isbn;
-  const updatedTitle = req.body.title;
-  const updatedDescription = req.body.description;
-  const updatedAuthor = req.body.author;
+  const updatedIsbn = req.body.isbn || undefined;
+  const updatedTitle = req.body.title || undefined;
+  const updatedDescription = req.body.description || undefined;
+  const updatedAuthor = req.body.author || undefined;
 
-  Book.findById(bookId)
-    .then((book) => {
-      book.title = updatedTitle;
-      book.isbn = updatedIsbn;
-      book.description = updatedDescription;
-      book.author = updatedAuthor;
-
-      return book.save();
+  Book.updateOne(
+    { _id: bookId },
+    {
+      isbn: updatedIsbn,
+      title: updatedTitle,
+      description: updatedDescription,
+      author: updatedAuthor,
+    },
+    { omitUndefined: true }
+  )
+    .then(() => {
+      return Book.findById(bookId);
     })
-    .then((result) => {
-      res.status(200).json(result);
+    .then((book) => {
+      res.status(200).json(book);
     })
     .catch((err) => console.log(err));
 };
 
 exports.destroy = (req, res, nxt) => {
-  const bookId = req.body.id;
+  const bookId = req.params.id;
 
   Book.findByIdAndRemove(bookId)
     .then((result) => {
