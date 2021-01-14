@@ -15,6 +15,12 @@ app.use("/api", apiRoutes);
 const PORT = process.env.PORT || 3000;
 const CONNECTIONSTRING = process.env.CONNECTIONSTRING || null;
 
+// Fix deprication warnings
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true)
+
 mongoose
   .connect(CONNECTIONSTRING)
   .then(() => {
