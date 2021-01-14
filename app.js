@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-const mongoConnect = require("./util/database").mongoConnect;
 const apiRoutes = require("./routes/api");
 
 app.use(bodyParser.urlencoded({ extended: false }));
